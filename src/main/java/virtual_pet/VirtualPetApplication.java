@@ -1,63 +1,117 @@
 package virtual_pet;
 
+import org.w3c.dom.ls.LSOutput;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VirtualPetApplication {
 
+    // Phase II virtual pet
     // this game is depending on the pet hungry level, thirsty level and bored level to choose how to .
     // if the pet not happy, displaying text color will change to yellow;
     // if the pet hungry, or thirsty, or bored, displaying text color will change to red;
     // if the pet not hungry, not thirsty, or not bored; the pet happy, the text color will change to green;
+    // When pet get adopted, this pet get removed from the shelter.
+    // only allow unique pet name in this shelter.
     // this game the setup for:
-    //              * hungry level is 10 (meaning 0 is very full, > 10 need to feed food);
-    //              * thirst level is 10 (meaning 0 is don't need water, > 10 need to feed water);
+    //              * hungry level is 13 (meaning 0 is very full, > 13 need to feed food, pet dies );
+    //              * thirst level is 13 (meaning 0 is don't need water, > 13 need to feed water, pet dies);
     //              * bored level is 8 (meaning 0 is not bored at all, > 8 is bored);
-    //
-    // the menu of the game to play:
-    //          1 -- time passes;           hungry increase by 5, thirsty increase by 5 and bored increase by 5
-    //          2 -- feed the pet food;     hungry down by 1
-    //          3 -- give the pet water;    thirsty down by 1
-    //          4 -- pet playing;           hungry up by 3, thirsty up by 3 and bored down by 3
-    //          5 -- pet self clean;        bored up by 1;
-    //          6 -- Exit.                  stop the game. exit te problem.
-    //
+    //              * pet health level 3 is very good; 1 must see a doctor; 0 means pet dead
+
+    // the menu of the game:
+    //          1  --  show all the pet in the shelter;
+    //          2  --  show pet all status;
+    //          3  --  admit a pet;
+    //          4  --  adopt a pet;
+    //          5  --  pick a pet to play;
+    //          6  --  pick a pet to feed food;
+    //          7  --  pick a pet to feed water;
+    //          8  --  pet self clean;
+    //          9  --  pet sick;
+    //          10  -- see a doctor;
+    //          11 --  time passes...
+    //          12 --  Exit.
+
+
     public static void main(String[] args) {
         //Interact with a VirtualPet object in this method
 
-        System.out.println("Welcome to the Virtual Pet Game!!!");
+        System.out.println("Welcome to the Virtual Pet Shelter Game!!!");
 
         Scanner userInput = new Scanner(System.in);
-        System.out.println("Please enter your pet name: ");
-        String petName = userInput.nextLine();
+        System.out.println("You are entered pet shelter center...");
 
-        VirtualPet myPet = new VirtualPet(petName, 0, 0,0);
-        System.out.println(myPet.talking() );
+        PetShelterCenter petShelter = new PetShelterCenter();
 
         boolean gameStop = false;
 
         while ( gameStop == false ) {
-            myPet.showPetStatus();
-            System.out.println("Please enter number: 1 -- time passes; 2 -- feed the pet food; 3 -- give the pet water; 4 -- pet playing; 5 -- self clean; 6 -- Exit.");
+
+            System.out.println("Please enter number:  ");
+            System.out.println("1  --  display all the pet in the shelter; ");
+            System.out.println("2  --  display all pet status;");
+            System.out.println("3  --  admit a pet; ");
+            System.out.println("4  --  adopt a pet;");
+            System.out.println("5  --  pick a pet to play;");
+            System.out.println("6  --  pick a pet to feed food;");
+            System.out.println("7  --  pick a pet to feed water;");
+            System.out.println("8  --  pet self clean;");
+            System.out.println("9  --  pet sick;");
+            System.out.println("10  -- see a doctor; ");
+            System.out.println("11 --  time passes...");
+            System.out.println("12 --  Exit.");
+
             int inputNum = userInput.nextInt();
             userInput.nextLine();
 
             if (inputNum == 1) {
-                myPet.tick();
+                petShelter.showPetCenter();
             }
             else if (inputNum == 2) {
-                myPet.feedFood();
-
+                petShelter.showAllPetsStatus();
             }
             else if (inputNum == 3) {
-                myPet.feedWater();
+                System.out.println("Pet name: ");
+                String name = userInput.nextLine();
+                if (petShelter.isUniqueName(name)) {
+                    System.out.println("Fur Color: ");
+                    String furColor = userInput.nextLine();
+                    System.out.println("Breed: ");
+                    String breed = userInput.nextLine();
+                    System.out.println("Age: ");
+                    int age = userInput.nextInt();
+                    userInput.nextLine();
+                    System.out.println("Live life: ");
+                    int livelife = userInput.nextInt();
+                    userInput.nextLine();
+                    petShelter.addPetToShelter(name, furColor, breed, age, livelife, 0, 0, 0, 3, 3, false);
+                }
             }
             else if (inputNum == 4) {
-                myPet.petPlaying();
+                System.out.println("Pet Name: ");
+                String name = userInput.nextLine();
+                petShelter.adoptPetFromShelter(name);
             }
-            else if (inputNum == 5) {
-                myPet.selfClean();
+            else if (inputNum == 5 || inputNum == 6 || inputNum == 7 || inputNum == 8 || inputNum == 9 || inputNum == 10) {
+
+                if (petShelter.choosePetToPlay() == false) {
+                    // message already displayed in blue
+                }
+                else {
+                    int choice = userInput.nextInt();
+                    userInput.nextLine();
+                    petShelter.pickedPetWithActivities(choice, inputNum);
+                }
+
             }
-            else if (inputNum == 6) {
+            else if ( inputNum == 11) {
+                // do tick() for every pet in the shelter
+                System.out.println("time passes...");
+                petShelter.timePassForAllPet();
+            }
+            else if (inputNum == 12) {
                 System.out.println("exit the program");
                 gameStop = true;
                 break;
@@ -70,4 +124,5 @@ public class VirtualPetApplication {
 
         userInput.close();
     }
+
 }

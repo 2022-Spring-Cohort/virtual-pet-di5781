@@ -19,3 +19,13 @@ Pets are not robots - they usually have some sort of self-determination! When ti
 - [ ] Create a visual representation of your pet.
 
 Rather than using numbers to convey your pet’s status, you could have some sort of visual representation of the pet. I.e., instead of printing hunger: 50, you could use smileys or ASCII art to show hunger when hunger >= 50.
+
+
+Our pets are housed in a shelter and cared for by you. You can interact with one pet at a time, or all pets. They can be adopted.
+
+Virtual Toys, Inc. requires:
+
+- [ ] Ability for players to admit pets into the shelter or adopt them
+- [ ] Ability for players to see a list of all pets in the shelter
+- [ ] Ability for players to see the current status of all pets at once, such as hunger, boredom, and health
+- [ ] Ability for players to choose to interact with one pet or multiple pets, such as feed, play, and take to doctor
