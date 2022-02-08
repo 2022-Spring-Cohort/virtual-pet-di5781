@@ -29,3 +29,12 @@ Virtual Toys, Inc. requires:
 - [ ] Ability for players to see a list of all pets in the shelter
 - [ ] Ability for players to see the current status of all pets at once, such as hunger, boredom, and health
 - [ ] Ability for players to choose to interact with one pet or multiple pets, such as feed, play, and take to doctor
+
+Sprint 3
+Deliverables
+Support for 4 types of pets: Organic Cats, Organic Dogs, Robotic Cats, Robotic Dogs.
+Robots require oil and maintenance.
+Organic cats and dogs require cage & litter box cleaning.
+Allow users to take dogs on walks.
+Walking organic pets decreases the rate at which they soil their cages/litter boxes.
+Walking robotic pets increases their need for oil and maintenance.

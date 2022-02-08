@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class VirtualPetTest {
 //    VirtualPet underTest = new VirtualPet("Bobo",0,0,0);
 
+    /*
     @Test
     public void getName() {
 
@@ -29,5 +30,7 @@ public class VirtualPetTest {
         int result = vPet.getThirsty();
         assertEquals(5, result);
     }
+
+     */
 
 }

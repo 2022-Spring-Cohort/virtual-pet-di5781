@@ -6,49 +6,111 @@ import static virtual_pet.VirtualPet.*;
 
 public class PetShelterCenter {
 
-    // display the shelter center's pets;
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BLUE = "\u001B[34m";
 
-    VirtualPet aPet = new VirtualPet("Lacy", "brown", "Poodle", 3, 12, 0, 0, 0,3, 3, false);
-    VirtualPet bPet = new VirtualPet("bobo", "white", "German Shepherd", 5, 9, 0, 0, 0, 3, 3, false);
-    VirtualPet cPet = new VirtualPet("Coco", "black", "Labrador", 2, 10, 0, 0, 0, 3, 3, false);
+    VirtualPet catOrg1 = new CatOrganic("Bobo", "Organic", false, "Cat", 0, 0, 0, 3, true);
+    VirtualPet dogOrg1 = new DogOrganic("Lacy", "Organic", false, "Dog", 0, 0, 0, 3, true);
+    VirtualPet catRobot1 = new CatRobot("Robo", "Robotic", false, "Cat", 3, 3);
+    VirtualPet dogRobot1 = new DogRobot("Elliot", "Robotic", false, "Dog", 3, 3);
+
 
     private ArrayList<VirtualPet> pets;
 
     public PetShelterCenter() {
         pets = new ArrayList<VirtualPet>();
-        pets.add(aPet);
-        pets.add(bPet);
-        pets.add((cPet));
+        pets.add(catOrg1);
+        pets.add(dogOrg1);
+        pets.add(catRobot1);
+        pets.add(dogRobot1);
     }
 
     public void showPetCenter() {
-        System.out.println(ANSI_BLUE + "=======================  Pet List  ===================================================================" + ANSI_RESET);
-        for (VirtualPet onePet : pets) {
-            System.out.println(onePet.getName()+" -- fur color is "+onePet.getFurColor()+", "+onePet.getAge() + " years old, "+ onePet.getType() + " breed, average living "
-                    + onePet.getLiveLife() +" years." );
-            System.out.println(ANSI_BLUE + "======================================================================================================" + ANSI_RESET);
 
+        System.out.println(ANSI_BLUE +"=================================  Pet Status  =================================================================================================="+ ANSI_RESET);
+        if (pets.size() == 0) {
+            System.out.println(ANSI_BLUE +"================================================================================================================================================="+ ANSI_RESET);
         }
-    }
-
-    public void addPetToShelter(String name, String furColor, String breed, int age, int liveLife, int hungry, int thirsty, int bored, int happy, int health, boolean dead) {
-        //VirtualPet(String name, String furColor, String type, int age, int liveLife, int hungry, int thirsty, int bored, int happy, boolean health)
-        VirtualPet newPet = new VirtualPet(name, furColor, breed, age, liveLife, 0, 0, 0, 3, 3, false);
-        pets.add(newPet);
-
-        System.out.println("We have a new pet: " + newPet.getName() + ", fur color is "+newPet.getFurColor() + ", "+newPet.getAge() + " years old. It is a "+ newPet.getType()
-                + " breed, average living "+ newPet.getLiveLife() + " years. ");
-    }
-
-    public boolean isUniqueName(String name) {
-
         for (VirtualPet onePet : pets) {
-            if (onePet.getName().equalsIgnoreCase(name)) {
-                System.out.println(ANSI_RED + "We already have pet name(" + name + ") in our shelter. Please change pet name!" + ANSI_RESET);
-                return false;
+            if (onePet instanceof CatOrganic) {
+                System.out.println("Name: " + onePet.getName() + ";    " + onePet.getPetType() + " " + onePet.getKindOfPet() +
+                        "      Hungry: " + ((OrganicPet) onePet).getHungry() + "      Thirsty: " + ((OrganicPet) onePet).getThirsty() +
+                        "      Bored: " + ((OrganicPet) onePet).getBored() + "     Litter box is cleaning: " + ((CatOrganic) onePet).isLitterBoxIsClean() + "     Health: "+
+                        ((CatOrganic) onePet).health + "        Dead: " + onePet.isDead());
+            }
+            if (onePet instanceof DogOrganic) {
+                System.out.println("Name: " + onePet.getName() + ";    " + onePet.getPetType() + " "  + onePet.getKindOfPet() +
+                        "      Hungry: " + ((OrganicPet) onePet).getHungry() + "      Thirsty: " + ((OrganicPet) onePet).getThirsty() +
+                        "      Bored: " + ((OrganicPet) onePet).getBored() + "     Cage is cleaning:       " + ((DogOrganic) onePet).isCageIsClean() + "     Health: " + ((DogOrganic) onePet).health +
+                        "        Dead: "+ onePet.isDead());
+            }
+            if (onePet instanceof CatRobot) {
+                System.out.println("Name: " + onePet.getName() + ";    " + onePet.getPetType() + " "  + onePet.getKindOfPet() +
+                        "      Power: " + ((CatRobot) onePet).getPower() + "       Battery: " + ((CatRobot) onePet).getBattery() + "                                                                     Dead: "+ onePet.isDead());
+            }
+            if (onePet instanceof DogRobot) {
+                System.out.println("Name: " + onePet.getName() + ";  " + onePet.getPetType() + " "  + onePet.getKindOfPet() +
+                        "      Power: " + ((DogRobot) onePet).getPower() + "       Battery: " + ((DogRobot) onePet).getBattery() + "                                                                     Dead: "+ onePet.isDead());
+            }
+            System.out.println(ANSI_BLUE +"================================================================================================================================================="+ ANSI_RESET);
+        }
+
+    }
+
+    public boolean showAllPetsStatus() {
+
+        boolean isAllDead = true;
+        for (VirtualPet onePet : pets) {
+            if (onePet.isDead() == false) {
+                isAllDead = false;
+                break;
+            }
+        }
+        if (isAllDead == true) {
+            System.out.println(ANSI_RED + "All pets in the shelter are dead now. Shelter is out of business!!!!" +ANSI_RESET);
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    public void addPetToShelter(String name, String petType, String kindOfType) {
+        if (petType.equalsIgnoreCase("organic")) {
+            if (kindOfType.equalsIgnoreCase("cat")) {
+                VirtualPet catOrgNew = new CatOrganic(name, "Organic", false, "Cat", 0, 0, 0, 3, true);
+                pets.add(catOrgNew);
+            }
+            else {
+                VirtualPet dogOrgNew = new DogOrganic(name, "Organic", false, "Dog", 0, 0, 0, 3, true);
+                pets.add(dogOrgNew);
+            }
+        }
+        else {
+            if (kindOfType.equalsIgnoreCase("cat")) {
+                VirtualPet catRobotNew = new CatRobot(name, "Robotic", false, "Cat", 3, 3);
+                pets.add(catRobotNew);
+            }
+            else {
+                VirtualPet dogRobotNew = new DogRobot(name, "Robotic", false, "Dog", 3, 3);
+                pets.add(dogRobotNew);
             }
         }
 
+        System.out.println("We have a new pet: " + name + " -- " + petType + " " + kindOfType);
+    }
+
+    public boolean isUniqueName(String name) {
+        for (VirtualPet onePet : pets) {
+            if (onePet.getName().equalsIgnoreCase(name)) {
+                System.out.println("We already have pet name(" + name + ") in our shelter. Please change pet name!");
+                return false;
+            }
+        }
         return true;
     }
 
@@ -56,44 +118,26 @@ public class PetShelterCenter {
         boolean found = true;
         if (pets.size() != 0) {
             for (VirtualPet adoptPet : pets) {
-                if (adoptPet.getName().equalsIgnoreCase(name)) {
-                    pets.remove(adoptPet);
-                    found = true;
-                    break;
+                if (adoptPet.dead == false) {
+                    if (adoptPet.getName().equalsIgnoreCase(name)) {
+                        pets.remove(adoptPet);
+                        found = true;
+                        break;
+                    }
+                    else {
+                        found = false;
+                    }
                 }
                 else {
-                    found = false;
+                    found = false;      // pet dead
                 }
             }
             if (found == false) {
-                System.out.println(ANSI_RED + "No name(" + name + ") in our shelter." + ANSI_RESET);
+                System.out.println(ANSI_RED + "No name(" + name + ") or the pet already dead in our shelter." + ANSI_RESET);
             }
         }
         else {
             System.out.println(ANSI_RED + "no pet in the shelter you can adopt." + ANSI_RESET);
-        }
-    }
-
-    public void showAllPetsStatus() {
-
-        System.out.println(ANSI_BLUE + "=====================  All Pet Status  ======================================================================================="+ ANSI_RESET);
-
-        if (pets.size() != 0) {
-            for (VirtualPet onePet : pets) {
-                onePet.checkPetStatus();        // check pet status
-                if (onePet.isHealth() == 1) {
-                    System.out.println("Name: " + onePet.getName() + "      Hunger Level: " + onePet.getHungry() + "      Thirsty Level: " +
-                            onePet.getThirsty() + "      Boredom Level: " + onePet.getBored() + "      Is Health: " + ANSI_RED + onePet.isHealth() + ANSI_RESET + "      Is Dead: "+onePet.isDead());
-                }
-                else {
-                    System.out.println("Name: " + onePet.getName() + "        Hunger Level: " + onePet.getHungry() + "        Thirsty Level: " +
-                            onePet.getThirsty() + "        Boredom Level: " + onePet.getBored() + "        Is Health: " + onePet.isHealth() + "      Is Dead: "+onePet.isDead());
-                }
-                System.out.println(ANSI_BLUE + "==============================================================================================================================" + ANSI_RESET);
-            }
-        }
-        else {
-            System.out.println("no records");
         }
     }
 
@@ -114,7 +158,7 @@ public class PetShelterCenter {
             System.out.println("Please choose a pet to play with:");
             for (VirtualPet onePet : pets) {
                 if (onePet.isDead() == false) {
-                    System.out.println("          [" +  pets.indexOf(onePet) + "] -- "+onePet.getName());
+                    System.out.println("          [" +  pets.indexOf(onePet) + "] -- "+onePet.getName() + " - " + onePet.getPetType() + " " + onePet.getKindOfPet());
                 }
             }
             havePet = true;
@@ -130,38 +174,136 @@ public class PetShelterCenter {
             // need do activities in here
             if (chooice == 5) {
                 // playing
-                pickedPet.petPlaying();
+                if (pickedPet instanceof CatOrganic) {
+                    ((CatOrganic) pickedPet).petPlaying();
+                }
+                if (pickedPet instanceof DogOrganic) {
+                    ((DogOrganic) pickedPet).petPlaying();
+                }
+                if (pickedPet instanceof CatRobot) {
+                    ((CatRobot) pickedPet).robotPlaying();
+                }
+                if (pickedPet instanceof DogRobot) {
+                    ((DogRobot) pickedPet).robotPlaying();
+                }
+                else {
+                    //do nothing
+                }
             } else if (chooice == 6) {
                 // hungry
-                pickedPet.feedFood();
+                if (pickedPet instanceof CatOrganic) {
+                    ((CatOrganic) pickedPet).feedFood();
+                }
+                else if (pickedPet instanceof DogOrganic) {
+                    ((DogOrganic) pickedPet).feedFood();
+                }
+                else {
+                    System.out.println(ANSI_RED+"Only organic pet eat food."+ANSI_RESET);
+                }
+                // robot pet don't need to feed food
             } else if (chooice == 7) {
                 // thirsty
-                pickedPet.feedWater();
-            } else if (chooice == 8) {
-                // self clean
-                pickedPet.selfClean();
-            } else if (chooice == 9) {
-                pickedPet.petSick();
-                if (pickedPet.isDead()) {
-                    // pet dead, remove it.
-                    //adoptPetFromShelter(pickedPet.getName());
+                if (pickedPet instanceof CatOrganic) {
+                    ((CatOrganic) pickedPet).feedWater();
                 }
+                else if (pickedPet instanceof DogOrganic) {
+                    ((DogOrganic) pickedPet).feedWater();
+                }
+                else {
+                    System.out.println(ANSI_RED + "Only organic pet drink water." + ANSI_RESET);
+                }
+                // robot pet don't need to feed water
+            } else if (chooice == 8) {
+                // change battery for robot pet
+                if (pickedPet instanceof CatRobot) {
+                    ((CatRobot) pickedPet).changeBattery();
+                }
+                else if (pickedPet instanceof DogRobot) {
+                    ((DogRobot) pickedPet).changeBattery();
+                }
+                else {
+                    System.out.println(ANSI_RED + "Only robotic pet need change battery."+ANSI_RESET);
+                }
+            } else if (chooice == 9) {
+                // make cage and litter box dirty
+                if (pickedPet instanceof CatOrganic) {
+                    ((CatOrganic) pickedPet).makeDirty();
+                }
+                else if (pickedPet instanceof DogOrganic) {
+                    ((DogOrganic) pickedPet).makeDirty();
+                }
+                else {
+                    System.out.println(ANSI_RED + "Only organic pet make cage or litter box dirty." + ANSI_RESET);
+                }
+                // robotic pet doesn't make mess
             } else if (chooice == 10) {
+                // clean the dirty cage and litter box
+                if (pickedPet instanceof DogOrganic) {
+                    ((DogOrganic) pickedPet).clean("Dog");
+                }
+                else if (pickedPet instanceof CatOrganic) {
+                    ((CatOrganic) pickedPet).clean("Cat");
+                }
+                else {
+                    System.out.println(ANSI_RED + "Only organic pet cage or litter box need to clean." + ANSI_RESET);
+                }
+
+            } else if (chooice == 11) {
+                // take pet to walk
+                if (pickedPet instanceof DogOrganic) {
+                    ((DogOrganic) pickedPet).walking();
+                }
+                else if (pickedPet instanceof DogRobot) {
+                    ((DogRobot) pickedPet).walking();
+                }
+                else {
+                    System.out.println(ANSI_RED + "only dog will take a walk." + ANSI_RESET);
+                }
+            } else if (chooice == 12) {
                 // see a doctor
-                pickedPet.seeDoctor();
+                if (pickedPet instanceof OrganicPet) {
+                    ((OrganicPet) pickedPet).petSeeDoctor();
+                }
+                else {
+                    System.out.println(ANSI_RED + "Only organic pet get see doctor." + ANSI_RESET);
+                }
+
+            } else if (chooice == 13) {
+                // pet sick
+                if (pickedPet instanceof OrganicPet) {
+                    ((OrganicPet) pickedPet).petSick();
+                }
+                else {
+                    System.out.println(ANSI_RED + "only organic pet get sick." + ANSI_RESET);
+                }
+            } else if (chooice == 14) {
+                // organic pet get bored
+                if (pickedPet instanceof OrganicPet) {
+                    ((OrganicPet) pickedPet).getOrganicPetBored();
+                }
+                else {
+                    System.out.println(ANSI_RED+"Only organic pet get bored."+ANSI_RESET);
+                }
             }
-            else {
+
+            } else {
+
                 // do nothing
             }
-        } else {
-            System.out.println(" press wrong number");
-        }
 
-    }
+        }
 
     public void timePassForAllPet() {
         for (VirtualPet onePet : pets) {
-            onePet.tick();
+            if (onePet instanceof OrganicPet) {
+                ((OrganicPet) onePet).tick();
+            }
+            if (onePet instanceof RoboticPet) {
+                ((RoboticPet) onePet).robotTick();
+            }
+            else {
+                // do nothing;
+            }
         }
     }
 
